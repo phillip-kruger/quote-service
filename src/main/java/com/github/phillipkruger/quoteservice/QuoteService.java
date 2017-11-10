@@ -1,22 +1,21 @@
 package com.github.phillipkruger.quoteservice;
 
-import javax.annotation.PostConstruct;
+import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
+import javax.enterprise.event.Observes;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 @Stateless
+@Log
 public class QuoteService {
-    
-    @Inject
-    private QuoteCache quoteCache;
     
     @Getter
     private Quote quote;
     
-    @PostConstruct
-    public void init(){
-        this.quote = quoteCache.getQuote();
+    public void updateQuote(@Observes Quote quote){
+        log.log(Level.FINEST, "Updating quote to [{0}]", quote.getText());
+        this.quote = quote;
     }
     
 }
