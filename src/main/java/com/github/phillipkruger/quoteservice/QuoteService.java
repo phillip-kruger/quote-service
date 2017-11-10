@@ -15,6 +15,6 @@ public class QuoteService {
     private QuoteProviderFactory factory;
 
     public Quote getQuote(){
-        return factory.getQuoteProvider("forismatic").getQuote();
+        return factory.getQuoteProviderForName("forismatic").getQuote();
     }
 }

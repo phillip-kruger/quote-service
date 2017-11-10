@@ -1,8 +1,5 @@
 package com.github.phillipkruger.quoteservice;
 
-import com.github.phillipkruger.quoteservice.provider.QuoteProvider;
-import com.github.phillipkruger.quoteservice.provider.ForismaticProvider;
-import com.github.phillipkruger.factory.QuoteProviderFactory;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
