@@ -1,4 +1,4 @@
-package com.github.phillipkruger.factory;
+package com.github.phillipkruger.quoteservice.provider.factory;
 
 import javax.enterprise.util.AnnotationLiteral;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ public class QuoteProviderNameLiteral extends AnnotationLiteral<QuoteProviderNam
 
     @Override
     public String value() {
-        return name;
+        return this.name;
     }
 }

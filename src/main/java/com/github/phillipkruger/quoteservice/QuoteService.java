@@ -1,20 +1,22 @@
 package com.github.phillipkruger.quoteservice;
 
-import com.github.phillipkruger.factory.QuoteProviderFactory;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import lombok.Getter;
 
-/**
- *
- * @author phillip
- */
 @Stateless
 public class QuoteService {
     
     @Inject
-    private QuoteProviderFactory factory;
-
-    public Quote getQuote(){
-        return factory.getQuoteProviderForName("forismatic").getQuote();
+    private QuoteCache quoteCache;
+    
+    @Getter
+    private Quote quote;
+    
+    @PostConstruct
+    public void init(){
+        this.quote = quoteCache.getQuote();
     }
+    
 }

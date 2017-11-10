@@ -1,4 +1,4 @@
-package com.github.phillipkruger.factory;
+package com.github.phillipkruger.quoteservice.provider.factory;
 
 import com.github.phillipkruger.quoteservice.provider.QuoteProvider;
 import java.util.HashMap;
@@ -8,10 +8,6 @@ import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-/**
- * Basic Factory
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
- */
 @ApplicationScoped
 public class QuoteProviderFactory {
     @Inject

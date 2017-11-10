@@ -7,7 +7,5 @@ import com.github.phillipkruger.quoteservice.Quote;
  * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
  */
 public interface QuoteProvider {
-
     public Quote getQuote();
-    
 }

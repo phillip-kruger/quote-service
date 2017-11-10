@@ -21,12 +21,6 @@ public class QuoteApi {
     private QuoteService service;
     
     @GET
-    @Path("ping")
-    public String ping() {
-        return "pong";
-    }
-    
-    @GET
     public Quote getQuote(){
         return service.getQuote();
     }

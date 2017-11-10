@@ -1,4 +1,4 @@
-package com.github.phillipkruger.factory;
+package com.github.phillipkruger.quoteservice.provider.factory;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

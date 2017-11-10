@@ -1,6 +1,6 @@
 package com.github.phillipkruger.quoteservice.provider;
 
-import com.github.phillipkruger.factory.QuoteProviderName;
+import com.github.phillipkruger.quoteservice.provider.factory.QuoteProviderName;
 import com.github.phillipkruger.quoteservice.ProxyInfo;
 import com.github.phillipkruger.quoteservice.Quote;
 import java.io.StringReader;
