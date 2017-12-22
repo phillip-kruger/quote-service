@@ -16,9 +16,14 @@ public class QuoteApiIT {
     
     @Test
     public void getMessageProvider(){
-        URI uri = UriBuilder.fromUri("http://localhost:9000/quote-service/api/").build();
+        URI uri = UriBuilder.fromUri("http://localhost:8080/quote-service/api/").build();
         String quote = restCaller.sendRequest(uri, "GET").readEntity(String.class);
         Assert.assertNotNull(quote);
         log.severe(quote);
+        
+        // {"text":"If you cannot be silent be brilliant and thoughtful.","author":"Byron Pulsifer"}
+        Assert.assertTrue(quote.contains("{\"text\":"));
+        Assert.assertTrue(quote.contains("\"author\":"));
+        
     }
 }

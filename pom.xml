@@ -2,6 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
+    <parent>
+        <groupId>com.github.phillip-kruger</groupId>
+        <artifactId>javaee-servers-parent</artifactId>
+        <version>javaee-7-v1-SNAPSHOT</version>
+    </parent>
+    
     <groupId>com.github.phillip-kruger.quote-service</groupId>
     <artifactId>quote-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>    
@@ -27,7 +33,7 @@
     <distributionManagement>
         <site>
             <id>wiki</id>
-            <url>https://github.com/phillip-kruger/message-example/wiki</url>
+            <url>https://github.com/phillip-kruger/quote-service/wiki</url>
         </site>
         
         <snapshotRepository>
@@ -58,18 +64,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         
         <!-- JEE Platform -->        
-        <jee.version>7.0</jee.version>
+        <java-ee.version>7.0</java-ee.version>
         <microProfile.version>1.2</microProfile.version>
         <lombok.version>1.16.18</lombok.version>
        
-        <!-- Open Liberty properties -->
-        <openliberty.version>17.0.0.3</openliberty.version>
-        <openliberty.http.port>9000</openliberty.http.port>
-        <openliberty.https.port>9043</openliberty.https.port>
-        <openliberty.installDir>/tmp/${project.artifactId}/ibm</openliberty.installDir>
-        <openliberty.maven.version>2.1</openliberty.maven.version>
-        <openliberty.Xmx>512m</openliberty.Xmx>
-        
         <!-- Logging settings -->
         <log.level>FINEST</log.level> 
         <log.name>com.github.phillipkruger</log.name>
@@ -77,11 +75,12 @@
     </properties>
     
     <dependencies>
+    
         <!-- Java EE -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>${jee.version}</version>
+            <version>${java-ee.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- MicroProfile -->
@@ -132,226 +131,11 @@
                     <include>**/*.*</include>
                 </includes>
             </resource>
-            <resource>
-                <directory>${basedir}/src/main/liberty/config</directory>
-                <targetPath>${project.build.directory}</targetPath>
-                <filtering>true</filtering>
-                <includes>
-                    <include>server.xml</include>
-                </includes>
-            </resource>
         </resources>
         
-        
-        <plugins>
-            <plugin>
-                <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                <artifactId>liberty-maven-plugin</artifactId>
-                <version>${openliberty.maven.version}</version>
-
-                <configuration>
-                    <assemblyArtifact>
-                        <groupId>io.openliberty</groupId>
-                        <artifactId>openliberty-runtime</artifactId>
-                        <version>${openliberty.version}</version>
-                        <type>zip</type>
-                    </assemblyArtifact>
-                </configuration>
-            </plugin>
-        </plugins>
-                
     </build>
         
     <profiles>
-        
-        <profile>
-            <id>fatjar</id>
-            <activation>
-                <property>
-                    <name>fatjar</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>install-server</goal>
-                                    <goal>create-server</goal>
-                                    <goal>run-server</goal>    
-                                </goals>
-
-                                <configuration>
-                                    <configFile>${project.build.directory}/server.xml</configFile>
-                                    <bootstrapProperties>
-                                        <httpPort>${openliberty.http.port}</httpPort>
-                                        <httpsPort>${openliberty.https.port}</httpsPort>
-                                    </bootstrapProperties>
-                                    <jvmOptions>
-                                        <param>-Xmx${openliberty.Xmx}</param>
-                                    </jvmOptions>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-    
-        <profile>
-            <id>start-liberty</id>
-            <activation>
-                <property>
-                    <name>start-liberty</name>
-                </property>
-            </activation>
-            <build>
-                
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-
-                        <executions>
-                            
-                            <execution>
-                                <id>1</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>install-server</goal>
-                                </goals>
-                                <configuration>
-                                    <assemblyInstallDirectory>${openliberty.installDir}</assemblyInstallDirectory>
-                                </configuration>
-                            </execution>
-                            
-                            <execution>
-                                <id>2</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>create-server</goal>
-                                    <goal>start-server</goal>
-                                </goals>
-                                <configuration>
-                                    <installDirectory>${openliberty.installDir}/wlp</installDirectory>
-                                    <serverName>${project.artifactId}</serverName>
-                                    <configFile>${project.build.directory}/server.xml</configFile>
-                                    <bootstrapProperties>
-                                        <httpPort>${openliberty.http.port}</httpPort>
-                                        <httpsPort>${openliberty.https.port}</httpsPort>
-                                    </bootstrapProperties> 
-                                    <jvmOptions>
-                                        <param>-Xmx${openliberty.Xmx}</param>
-                                    </jvmOptions>
-                                </configuration>
-                            </execution>
-                            
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>stop-liberty</id>
-            <activation>
-                <property>
-                    <name>stop-liberty</name>
-                </property>
-            </activation>
-            <build>
-                
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>stop-server</goal>
-                                </goals>
-                                <configuration>
-                                    <installDirectory>${openliberty.installDir}/wlp</installDirectory>
-                                    <serverName>${project.artifactId}</serverName>
-                                </configuration>
-                            </execution>
-                            
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>deploy</id>
-            <activation>
-                <property>
-                    <name>deploy</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                                <configuration>
-                                    <appArchive>${project.build.directory}/${project.artifactId}.war</appArchive>
-                                    <serverName>${project.artifactId}</serverName>
-                                    <installDirectory>${openliberty.installDir}/wlp</installDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>package-liberty</id>
-            <activation>
-                <property>
-                    <name>package-liberty</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>package-server</goal>
-                                </goals>
-                                <configuration>
-                                    <packageFile>${project.build.directory}/${project.artifactId}.jar</packageFile>
-                                    <include>runnable</include>
-                                    <serverName>${project.artifactId}</serverName>
-                                    <installDirectory>${openliberty.installDir}/wlp</installDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            
-        </profile>
         
         <profile>
             <id>k8</id>

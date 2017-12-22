@@ -1,11 +1,9 @@
 package com.github.phillipkruger.quoteservice.provider;
 
 import com.github.phillipkruger.quoteservice.provider.factory.QuoteProviderName;
-import com.github.phillipkruger.quoteservice.ProxyInfo;
 import com.github.phillipkruger.quoteservice.Quote;
 import java.io.StringReader;
 import java.time.temporal.ChronoUnit;
-import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
@@ -33,8 +31,6 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 @Log
 public class ForismaticProvider implements QuoteProvider {
     
-    @Inject
-    private ProxyInfo proxyInfo;
     @Inject
     private ForismaticConfig forismaticConfig;
     
@@ -82,19 +78,7 @@ public class ForismaticProvider implements QuoteProvider {
     @PostConstruct
     public void init(){
         
-        ClientBuilder cb = ClientBuilder.newBuilder();
-        
-        if(proxyInfo.isConfigured()){
-            log.log(Level.INFO, "Using proxy server [{0}]", proxyInfo.getProxyHost());
-            cb.property("com.ibm.ws.jaxrs.client.proxy.host", proxyInfo.getProxyHost());
-            cb.property("com.ibm.ws.jaxrs.client.proxy.port", proxyInfo.getProxyPort());
-            cb.property("com.ibm.ws.jaxrs.client.proxy.type", proxyInfo.getProxyType());
-            cb.property("com.ibm.ws.jaxrs.client.proxy.username", proxyInfo.getProxyUsername());
-            cb.property("com.ibm.ws.jaxrs.client.proxy.password", proxyInfo.getProxyPassword());
-            this.client = cb.build();
-        }else{
-            this.client = ClientBuilder.newClient();
-        }
+        this.client = ClientBuilder.newClient();
         
         this.form = new Form()
             .param("method", forismaticConfig.getMethod())

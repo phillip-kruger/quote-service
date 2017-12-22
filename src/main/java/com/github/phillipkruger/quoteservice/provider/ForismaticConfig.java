@@ -1,6 +1,5 @@
 package com.github.phillipkruger.quoteservice.provider;
 
-import java.net.URI;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import lombok.Getter;
@@ -15,7 +14,7 @@ public class ForismaticConfig {
     @Getter
     @Inject
     @ConfigProperty(name = "forismatic.endpoint", defaultValue = "http://api.forismatic.com/api/1.0/")
-    private URI endpoint;
+    private String endpoint;
     
     @Getter
     @Inject

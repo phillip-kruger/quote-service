@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server xmlns="urn:jboss:domain:4.0">
+    <profile>
+        <subsystem xmlns="urn:jboss:domain:logging:3.0">
+            <logger category="${log.name}">
+                <level name="${log.level}"/>
+            </logger>
+        </subsystem>
+    </profile>
+</server>
