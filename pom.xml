@@ -63,11 +63,15 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <!-- JEE Platform -->        
+        <!-- Java EE Platform -->        
         <java-ee.version>7.0</java-ee.version>
         <microProfile.version>1.2</microProfile.version>
         <lombok.version>1.16.18</lombok.version>
        
+        <!-- Example web page -->
+        <semantic-ui.version>2.2.10</semantic-ui.version>
+        <jquery.version>2.1.4</jquery.version>
+        
         <!-- Logging settings -->
         <log.level>FINEST</log.level> 
         <log.name>com.github.phillipkruger</log.name>
@@ -98,6 +102,22 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+         
+        <!-- Webjars: see http://www.webjars.org/documentation -->
+        <!-- Used in example web page -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>semantic-ui</artifactId>
+            <version>${semantic-ui.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${jquery.version}</version>
+            <scope>runtime</scope>
+        </dependency> 
          
         <!-- Test related -->
         <dependency>
@@ -133,6 +153,28 @@
             </resource>
         </resources>
         
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>**/*.css</include>
+                                <include>**/*.html</include>
+                                <include>**/*.xhtml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                    
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
         
     <profiles>
